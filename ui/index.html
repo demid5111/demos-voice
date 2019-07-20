@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css" />
-    <script src="js/index.ts"></script>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
@@ -21,21 +21,20 @@
         </div>
     </nav>
     <div class="uk-container">
-        <div id="button-area">
-
+        <div class="flex-inline">
+            <input id="initPost" class="uk-input uk-margin-right" type="text">
+            <button id="reqBtn" class="uk-button uk-button-default">Отправить запрос</button>
         </div>
-        <button class="uk-button uk-button-default">Button</button>
         <ul class="uk-list uk-list-divider">
-            <li>List item 1</li>
-            <li>List item 2</li>
-            <li>List item 3</li>
+            <li>Ямы</li>
+            <li>Дороги</li>
+            <li>Клумбы</li>
         </ul>
     </div>
-
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/js/uikit-icons.min.js"></script>
+    <script src="scripts/button.ts"></script>
+    <!-- <script src="scripts/index.ts"></script> -->
 </body>
 
 </html>

@@ -1,0 +1,8 @@
+.flex-inline {
+    display: flex;
+    flex-flow: row;
+}
+
+#initPost {
+    width: 360px;
+}

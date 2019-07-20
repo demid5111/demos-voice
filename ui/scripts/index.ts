@@ -1,14 +1,18 @@
+import { Navbar } from "./navbar";
+import { List } from "./list";
+
 var m = require("mithril");
+(<any>window).m = m;
 
 var buttons = document.getElementById("button-area");
 
-
-
 function addInitiative() {
-    const ipж
     m.request({
         method: "POST",
-        body: "",
+        // body: {
+        //     "socialNetwork": "vk",
+        //     "fromUrl": ""
+        // },
         url: "/85.",
         withCredentials: true,
     })
@@ -16,15 +20,18 @@ function addInitiative() {
             console.log("ye")
         })
 }
-m.render(buttons, m([
-    m(
-        "button.uk-button.uk-button-default",
-        {
-            onclick: addInitiative();
-        },
-        "Добавить"
-    ),
-    m("input", {
-        oninput: (v) => console.log(v.data.value),
-    })
-])
+
+var Btn = {
+    view() {
+        return m("",
+            Navbar(),
+            m(
+                "button.uk-button.uk-button-default",
+                "Добавить"
+            ),
+            List(["Ямы", "Бордюр", "Клумба"])
+        )
+    }
+}
+
+m.mount(document.body, Btn);
