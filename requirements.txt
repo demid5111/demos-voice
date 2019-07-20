@@ -1,6 +1,7 @@
 Flask>=1.0.2
-Flask-RESTful>=0.3.6
 Flask-Cors>=0.3.6
+Flask-RESTful>=0.3.6
+Flask-SQLAlchemy>=2.3.2
 vk==2.0.2
 vk_api==11.5.0
 

@@ -1,3 +1,4 @@
 .idea
 __pycache__
 .secret_access_token
+db/test.db
