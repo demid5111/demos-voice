@@ -1,0 +1,2 @@
+class VKParser(IParser):
+    pass
