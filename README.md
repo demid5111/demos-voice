@@ -22,6 +22,8 @@
 
 * Мотивация пользователей (граждан) к активному участию в общественных процессах
 * Необходимо учитывать юридические требования текущего законодательства
+
+## Техническая информация
 1. Add the file `.secret_access_token` in the root with the VK access_token
 2. `pip3 install -r requirements.txt`
 3. `cd ui`
