@@ -23,10 +23,10 @@ def fill_database():
     county1.region_id = 1
     write_record(county1, get_db().session)
 
-    discussion1 = TblProposals()
-    discussion1.name = 'Ustanovka mosta'
-    discussion1.region_id = 1
-    write_record(county1, get_db().session)
+    proposal1 = TblProposals()
+    proposal1.name = 'Ustanovka mosta'
+    proposal1.region_id = 1
+    write_record(proposal1, get_db().session)
 
     discussion1 = TblDiscussions()
     discussion1.type = 'VK'

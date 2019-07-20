@@ -13,3 +13,5 @@ class TblDiscussions(BaseModel):
     likes = Column(Integer, nullable=True, default=0)
     start_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow, nullable=True)
     end_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow, nullable=True)
+    poll_question = Column(String, nullable=True)
+    poll_likes = Column(Integer, nullable=True, default=0)
