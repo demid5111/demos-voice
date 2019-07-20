@@ -12,13 +12,13 @@ def home():
     return app.send_static_file('index.html')
 
 
-@app.route('/new', methods=['GET'])
+@app.route('/new', methods=['POST'])
 def import_from_post():
-    # data = request.get_json()
-    data = {
-        'socialNetwork': 'vk',
-        'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
-    }
+    data = request.get_json()
+    # data = {
+    #     'socialNetwork': 'vk',
+    #     'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
+    # }
     net = data['socialNetwork']
     if net != 'vk':
         raise NotImplementedError
