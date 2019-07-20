@@ -1,19 +1,27 @@
 import { Navbar } from "./navbar";
 import { List } from "./list";
+import { Button, Input } from "./button";
+import { send } from "q";
 
 var m = require("mithril");
 (<any>window).m = m;
 
 var buttons = document.getElementById("button-area");
 
-function addInitiative() {
+let initiativePostUrl = "";
+
+const changeUrl = (value: string) => {
+    initiativePostUrl = value;
+}
+
+const sendData = () => {
     m.request({
         method: "POST",
-        // body: {
-        //     "socialNetwork": "vk",
-        //     "fromUrl": ""
-        // },
-        url: "/85.",
+        body: {
+            "socialNetwork": "vk",
+            "fromUrl": ""
+        },
+        url: "/example.comm",
         withCredentials: true,
     })
         .then(function (data) {
@@ -21,17 +29,22 @@ function addInitiative() {
         })
 }
 
-var Btn = {
+const Page = {
     view() {
         return m("",
             Navbar(),
-            m(
-                "button.uk-button.uk-button-default",
-                "Добавить"
-            ),
-            List(["Ямы", "Бордюр", "Клумба"])
+            m(".uk-container",
+                m(
+                    ".flex-inline",
+                    [
+                        Input(changeUrl),
+                        Button("Добавить", sendData)
+                    ]
+                ),
+                List(["Ямы", "Бордюр", "Клумба"])
+            )
         )
     }
 }
 
-m.mount(document.body, Btn);
+m.mount(document.body, Page);

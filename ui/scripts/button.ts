@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var btn = document.getElementById("reqBtn");
 var input = () => (<HTMLInputElement>document.getElementById("initPost")).value;
 
@@ -13,21 +14,22 @@ var send = () => {
         .then(data => console.log(JSON.stringify(data))) // JSON-строка полученная после вызова `response.json()`
         .catch(error => console.error(error));
 };
-
-function postData(url = '', data = {}) {
-    // Значения по умолчанию обозначены знаком *
-    return fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, cors, *same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded',
+=======
+export const Button = (title: string, callback?: () => void) => 
+    m(
+        "button.uk-button.uk-button-default",
+        {            
+            onclick: callback
         },
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
-    })
-        .then(response => response.json()); // парсит JSON ответ в Javascript объект
-}
+        title
+    )
+>>>>>>> add mithril
+
+export const Input = (callback?: (value: string)=> void) => 
+    m(
+        "input.uk-input.uk-margin-right",
+        {
+            type: "text",
+            oninput: (v) => callback(v.data.value)
+        },
+    )
