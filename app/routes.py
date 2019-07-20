@@ -1,21 +1,21 @@
 from app import app
-from flask import jsonify, request
+from flask import jsonify, render_template, request
 
 from app.core.parsers.vk import VKParser
 
+
 @app.route('/')
-@app.route('/index')
-def index():
-    return 'Hello, World!'
+def home():
+    return app.send_static_file('index.html')
 
 
-@app.route('/new')
+@app.route('/new', methods=['POST'])
 def import_from_post():
-    # data = request.get_json()
-    data = {
-        'socialNetwork': 'vk',
-        'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
-    }
+    data = request.get_json()
+    # data = {
+    #     'socialNetwork': 'vk',
+    #     'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
+    # }
     net = data['socialNetwork']
     if net != 'vk':
         raise NotImplementedError
@@ -25,8 +25,8 @@ def import_from_post():
     return jsonify({})
 
 
-@app.route('/all')
-def import_from_post():
+@app.route('/all', methods=['GET'])
+def get_all():
     data = [
         {
             'title': 'First',

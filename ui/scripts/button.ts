@@ -5,11 +5,11 @@ btn.addEventListener("click", () => send());
 
 const reqData = {
     socialNetwork: "vk",
-    data: input()
-}
+    fromUrl: input()
+};
 
 var send = () => {
-    postData('http://example.com/answer', reqData)
+    postData('http://localhost:5000/new', reqData)
         .then(data => console.log(JSON.stringify(data))) // JSON-строка полученная после вызова `response.json()`
         .catch(error => console.error(error));
 };
