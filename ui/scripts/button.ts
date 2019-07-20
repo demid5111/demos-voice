@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 var btn = document.getElementById("reqBtn");
 var input = () => (<HTMLInputElement>document.getElementById("initPost")).value;
 
@@ -15,6 +16,8 @@ var send = () => {
         .catch(error => console.error(error));
 };
 =======
+=======
+>>>>>>> 45ab9da... add req
 export const Button = (title: string, callback?: () => void) => 
     m(
         "button.uk-button.uk-button-default",
@@ -23,13 +26,20 @@ export const Button = (title: string, callback?: () => void) =>
         },
         title
     )
+<<<<<<< HEAD
 >>>>>>> add mithril
+=======
+>>>>>>> 45ab9da... add req
 
 export const Input = (callback?: (value: string)=> void) => 
     m(
         "input.uk-input.uk-margin-right",
         {
             type: "text",
+<<<<<<< HEAD
             oninput: (v) => callback(v.data.value)
+=======
+            oninput: (v) => callback(v.srcElement.value)
+>>>>>>> 45ab9da... add req
         },
     )

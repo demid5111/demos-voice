@@ -1,50 +1,70 @@
 import { Navbar } from "./navbar";
 import { List } from "./list";
 import { Button, Input } from "./button";
-import { send } from "q";
+import { sendData } from "./sendMessage";
 
 var m = require("mithril");
 (<any>window).m = m;
 
-var buttons = document.getElementById("button-area");
+type CustomInputValue = () => string;
 
-let initiativePostUrl = "";
-
-const changeUrl = (value: string) => {
-    initiativePostUrl = value;
-}
-
-const sendData = () => {
-    m.request({
-        method: "POST",
-        body: {
-            "socialNetwork": "vk",
-            "fromUrl": ""
-        },
-        url: "/example.comm",
-        withCredentials: true,
-    })
-        .then(function (data) {
-            console.log("ye")
-        })
+export type ListItem = {
+    id: string,
+    title: string
 }
 
 const Page = {
-    view() {
+    controller: function (customInputValue: CustomInputValue) {
+        let actionItems: ListItem[] = [{ id: "1", title: "Яма" }];
+
+        return {
+            value: "vk",
+            actionItems
+        };
+    },
+    view: function (controller: { value: CustomInputValue, actionItems }) {
+
+        // const sendData = () => {
+        // m.request({
+        //     method: "GET",
+        //     body: {
+        //         "socialNetwork": "vk",
+        //         "fromUrl": controller.value
+        //     },
+        //     url: "/new",
+        //     withCredentials: true,
+        // })
+        //     .then(function (data) {
+        //         console.log("ye")
+        //     })
+        // }
+
         return m("",
             Navbar(),
             m(".uk-container",
                 m(
                     ".flex-inline",
                     [
-                        Input(changeUrl),
-                        Button("Добавить", sendData)
+                        m("input.uk-input", {
+                            oninput: m.withAttr("value", (value) => controller.value = value),
+                        }),
+                        Button("Добавить", () => {
+                            sendData(
+                                'http://localhost:5000/new',
+                                {
+                                    socialNetwork: "vk",
+                                    fromUrl: controller.value
+                                },
+                                "POST")
+                                .then(data => console.log(JSON.stringify(data)))
+                                .catch(error => console.error(error));
+                        })
                     ]
                 ),
-                List(["Ямы", "Бордюр", "Клумба"])
+                List(controller.actionItems)
             )
-        )
+        );
     }
-}
+};
 
-m.mount(document.body, Page);
+m.render(document.body, Page);
