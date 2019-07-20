@@ -21,5 +21,24 @@ def import_from_post():
         raise NotImplementedError
 
     parser = VKParser()
-    parser.parse(data['fromUrl'])
+    post = parser.parse(data['fromUrl'])
     return jsonify({})
+
+
+@app.route('/all')
+def import_from_post():
+    data = [
+        {
+            'title': 'First',
+            'id': '1',
+        },
+        {
+            'title': 'Second',
+            'id': '2',
+        },
+        {
+            'title': 'Third',
+            'id': '3',
+        }
+    ]
+    return jsonify(data)
