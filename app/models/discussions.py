@@ -8,8 +8,8 @@ from app.models.base import BaseModel
 class TblDiscussions(BaseModel):
     __tablename__ = 'discussions'
 
-    proposal_id = Column(Integer, ForeignKey('proposals.id'), primary_key=True)
+    proposal_id = Column(Integer, ForeignKey('proposals.id'))
     type = Column(String, nullable=True)
-    likes = Column(Integer, nullable=True)
-    start_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow)
-    end_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow)
+    likes = Column(Integer, nullable=True, default=0)
+    start_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow, nullable=True)
+    end_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow, nullable=True)
