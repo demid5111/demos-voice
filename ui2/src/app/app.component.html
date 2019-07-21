@@ -1,0 +1,47 @@
+<div *ngIf="currentProposal === null || currentProposal === undefined">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Ссылка на пост Вконтакте" value="" [(ngModel)]="url" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="analyzeProposal()">Проанализировать</button>
+  </form>
+
+  <mat-list>
+    <div *ngFor="let proposal of allProposals">
+      <mat-list-item  (click)="selectProposal(proposal.id)" >{{ proposal.name }}</mat-list-item>
+    <mat-divider></mat-divider>
+    </div>
+  </mat-list>
+</div>
+
+
+<div *ngIf="currentProposal !== null && currentProposal !== undefined">
+  <button mat-raised-button (click)="eraseSelection()" color="primary">Обратно к списку</button>
+
+  <mat-divider></mat-divider>
+
+  <div>Название: {{ allProposals[currentProposal].name }}</div>
+
+  <div>Описание: {{ allProposals[currentProposal].content }}</div>
+
+  <mat-divider></mat-divider>
+
+  <div>Лайки: {{ allProposals[currentProposal].likes }}</div>
+
+  <div>Комментарии: {{ allProposals[currentProposal].numComments }}</div>
+
+  <div>Средний уровень позитива, от -1 (негативно) до 1 (позитивно): {{ allProposals[currentProposal].meanPolarity }}</div>
+
+  <mat-divider></mat-divider>
+
+  <div style="position: relative;min-height: 220px; max-width:700px; margin-left: auto; margin-right: auto">
+    <canvas #canvasElement id="myChart"></canvas>
+    <div id="chartjs-tooltip">
+      <div class="tooltip-items"></div>
+    </div>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>
