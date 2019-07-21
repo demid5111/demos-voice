@@ -10,3 +10,10 @@ class TblAnswers(BaseModel):
     text = Column(String, nullable=True)
     likes = Column(Integer, nullable=True)
     rate = Column(Float, nullable=True)
+
+    def json(self):
+        return {
+            'text': self.text,
+            'likes': self.likes,
+            'rate': self.rate,
+        }

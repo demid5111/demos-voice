@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, render_template, request
+from flask import jsonify, request
 
 from app.core.parsers.vk import VKParser
 from app.core.sentiment_analysis import analyze_sentiments
@@ -8,7 +8,6 @@ from app.models.answers import TblAnswers
 from app.models.comments import TblComments
 from app.models.discussions import TblDiscussions
 from app.models.proposals import TblProposals
-from app.models.regions import TblRegions
 from app.utils import write_record
 
 
@@ -19,11 +18,12 @@ def home():
 
 @app.route('/new', methods=['POST', 'GET'])
 def import_from_post():
-    # data = request.get_json()
-    data = {
-        'socialNetwork': 'vk',
-        'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
-    }
+    data = request.get_json()
+    if not data:
+        data = {
+            'socialNetwork': 'vk',
+            'fromUrl': 'https://vk.com/moneysecrets?w=wall-184648030_2',
+        }
     net = data['socialNetwork']
     if net != 'vk':
         raise NotImplementedError
@@ -65,15 +65,25 @@ def import_from_post():
 
 @app.route('/all', methods=['GET'])
 def get_all():
-    return jsonify([p.json() for p in TblProposals.query.all()])
+    res = []
+    for proposal in TblProposals.query.all():
+        discussion = TblDiscussions.query.filter_by(proposal_id=proposal.id).first()
+        answers = TblAnswers.query.filter_by(discussion_id=discussion.id).all()
+
+        res.append({
+            **proposal.json(),
+            'poll': [a.json() for a in answers]
+        })
+    return jsonify(res)
 
 
 @app.route('/analyze', methods=['GET', 'POST'])
 def analyze_proposal():
-    # data = request.get_json()
-    data = {
-        'proposalId': '1'
-    }
+    data = request.get_json()
+    if not data:
+        data = {
+            'proposalId': '1'
+        }
     proposal = TblProposals.query.get(data['proposalId'])
     discussion = TblDiscussions.query.filter_by(proposal_id=proposal.id).first()
     comments = TblComments.query.filter_by(discussion_id=discussion.id).all()
