@@ -42,8 +42,9 @@ def import_from_post():
     discussion.type = 'VK'
     discussion.proposal_id = proposal.id
     discussion.likes = post.likes
-    discussion.poll_likes = post.poll.votes
-    discussion.poll_question = post.poll.question
+    discussion.poll_likes = post.poll.votes if post.poll else 0
+    discussion.poll_question = post.poll.question if post.poll else 0
+    discussion.url = data['fromUrl']
     write_record(discussion, get_db().session)
 
     for c in post.comments:
@@ -53,12 +54,14 @@ def import_from_post():
         comment.likes = c.likes
         write_record(comment, get_db().session)
 
-    for a in post.poll.answers:
-        answer = TblAnswers()
-        answer.text = a.text
-        answer.rate = a.rate
-        answer.likes = a.votes
-        write_record(answer, get_db().session)
+    if post.poll:
+        for a in post.poll.answers:
+            answer = TblAnswers()
+            answer.discussion_id = discussion.id
+            answer.text = a.text
+            answer.rate = a.rate
+            answer.likes = a.votes
+            write_record(answer, get_db().session)
 
     fill_sentiments(proposal.id)
     return jsonify({})
@@ -68,6 +71,8 @@ def import_from_post():
 def get_all():
     res = []
     for proposal in TblProposals.query.all():
+        if not proposal:
+            continue
         discussion = TblDiscussions.query.filter_by(proposal_id=proposal.id).first()
         answers = TblAnswers.query.filter_by(discussion_id=discussion.id).all()
 

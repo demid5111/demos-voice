@@ -22,6 +22,7 @@ class TblProposals(BaseModel):
         discussion = TblDiscussions.query.filter_by(proposal_id=self.id).first()
         comments = TblComments.query.filter_by(discussion_id=discussion.id).all()
 
+        comments_spam = sum([1 if c.is_spam else 0 for c in comments])
         comments_likes = sum([c.likes if c.likes else 0 for c in comments])
 
         try:
@@ -60,4 +61,6 @@ class TblProposals(BaseModel):
             'likes': discussion.likes,
             'numComments': len(comments),
             'commentsLikes': comments_likes,
+            'spamComments': comments_spam,
+            'url': discussion.url
         }

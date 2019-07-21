@@ -14,7 +14,10 @@ class VKPost:
         self.likes = instance['likes']['count']
         self.num_comments = instance['comments']['count']
         self.fill_from_vk_comments(vk_comments)
-        self.fill_from_vk_poll(instance['attachments'][0]['poll'])
+        try:
+            self.fill_from_vk_poll(instance['attachments'][0]['poll'])
+        except:
+            pass
 
     def fill_from_vk_comments(self, vk_comments):
         self.comments = [VKComment(i) for i in vk_comments['items']]

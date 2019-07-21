@@ -1,4 +1,5 @@
 from app.core.sentiment_analysis import analyze_sentiments
+from app.core.spam_analysis import analyze_spam
 from app.factories.database import get_db
 from app.models.answers import TblAnswers
 from app.models.comments import TblComments
@@ -61,4 +62,9 @@ def fill_sentiments(proposal_id):
         c.positive = res['positive']
         c.neutral = res['neutral']
         c.negative = res['negative']
+
+        # res_spam = analyze_spam(c.text)
+        # c.spam_confidence = res_spam['confidence']
+        # c.is_spam = res_spam['spam']
+
         write_record(c, get_db().session)

@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, Integer, ForeignKey, String, DateTime, Float
+from sqlalchemy import Column, Integer, ForeignKey, String, DateTime, Float, Boolean
 
 from app.models.base import BaseModel
 
@@ -18,3 +18,5 @@ class TblComments(BaseModel):
     positive = Column(Float, nullable=True)
     neutral = Column(Float, nullable=True)
     negative = Column(Float, nullable=True)
+    spam_confidence = Column(Float, nullable=True)
+    is_spam = Column(Boolean, nullable=True)
