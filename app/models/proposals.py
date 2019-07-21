@@ -15,3 +15,15 @@ class TblProposals(BaseModel):
     creation_time = Column(DateTime, onupdate=datetime.datetime.utcnow, default=datetime.datetime.utcnow)
     longitude = Column(Float, nullable=True)
     latitude = Column(Float, nullable=True)
+
+    def json(self):
+        return {
+            'id': self.id,
+            'county_id': self.county_id,
+            'subject': self.subject,
+            'name': self.name,
+            'content': self.content,
+            'creationTime': self.creation_time,
+            'longitude': self.longitude,
+            'latitude': self.latitude,
+        }

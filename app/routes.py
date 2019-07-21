@@ -64,18 +64,4 @@ def import_from_post():
 
 @app.route('/all', methods=['GET'])
 def get_all():
-    data = [
-        {
-            'title': 'First',
-            'id': '1',
-        },
-        {
-            'title': 'Second',
-            'id': '2',
-        },
-        {
-            'title': 'Third',
-            'id': '3',
-        }
-    ]
-    return jsonify(data)
+    return jsonify([p.json() for p in TblProposals.query.all()])
