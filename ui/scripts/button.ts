@@ -1,6 +1,6 @@
 import { m } from ".";
 
-export const Button = (title: string, callback?: () => void) => 
+export const Button = (title: string, callback?: (e) => void) => 
     m(
         "button.uk-button.uk-button-default",
         {            

@@ -23,7 +23,7 @@ const Page = {
             .then(data => {
                 let items = data ? data.map(x => {
                     return {
-                        description: "hello1",
+                        description: x.content,
                         open: m.prop(false),
                         title: `${x.name} (${x.subject})`,
                         id: x.id
@@ -79,7 +79,7 @@ const Page = {
                                         .then(data => {
                                             let items = data ? data.map(x => {
                                                 return {
-                                                    description: "hello1",
+                                                    description: x.content,
                                                     open: m.prop(false),
                                                     title: `${x.name} (${x.subject})`,
                                                     id: x.id

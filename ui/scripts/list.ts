@@ -6,13 +6,13 @@ export const List = (data: ListItem[]) => {
     return m(
         "ul.uk-list.uk-list-divider.uk-accordion",
         data.map((x) => {
-            return ListItem(x.title, x.id, x.open(), x.description,x.open)
+            return ListItem(x.title, x.id, x.open(), x.description, x.open)
         }
         )
     )
 }
 
-var ListItem = (title, id ,changeOpen, description ,callback) => {
+var ListItem = (title, id, changeOpen, description, callback) => {
     return m(
         "li",
         {
@@ -28,7 +28,10 @@ var ListItem = (title, id ,changeOpen, description ,callback) => {
                 class: changeOpen ? "" : "hide"
             },
             m(".uk-margin", description),
-            Button("Провести анализ", () => sendData("http://localhost:5000/analyze", {proposalId: id}, "POST"))
+            Button("Провести анализ", (e) => {
+                e.preventDefault();
+                sendData("http://localhost:5000/analyze", { proposalId: id }, "POST");
+            })
         )
     )
 }
