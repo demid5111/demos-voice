@@ -20,24 +20,24 @@ const Page = {
         getData(
             'http://localhost:5000/all',
             "GET")
-            .then(data => { 
-                let items = data.map(x => { 
+            .then(data => {
+                let items = data ? data.map(x => {
                     return {
                         description: "hello1",
                         open: m.prop(false),
-                        title: x.title,
+                        title: `${x.name} (${x.subject})`,
                         id: x.id
                     }
-                });
-                actionItems(items) 
+                }) : [];
+                actionItems(items)
                 m.redraw();
             })
-                .catch(error => console.error(error));
-    return {
-        value: "vk",
-        actionItems
-    };
-},
+            .catch(error => console.error(error));
+        return {
+            value: "vk",
+            actionItems
+        };
+    },
     view: function (controller: { value: CustomInputValue, actionItems }) {
 
         // const sendData = () => {
@@ -72,7 +72,24 @@ const Page = {
                                     fromUrl: controller.value
                                 },
                                 "POST")
-                                .then(data => console.log(JSON.stringify(data)))
+                                .then(data => {
+                                    getData(
+                                        'http://localhost:5000/all',
+                                        "GET")
+                                        .then(data => {
+                                            let items = data ? data.map(x => {
+                                                return {
+                                                    description: "hello1",
+                                                    open: m.prop(false),
+                                                    title: `${x.name} (${x.subject})`,
+                                                    id: x.id
+                                                }
+                                            }) : [];
+                                            controller.actionItems(items)
+                                            m.redraw();
+                                        })
+                                }
+                                )
                                 .catch(error => console.error(error));
                         })
                     ]

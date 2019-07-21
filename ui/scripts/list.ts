@@ -1,17 +1,18 @@
 import { ListItem, m } from ".";
 import { Button } from "./button";
+import { sendData } from "./sendMessage";
 
 export const List = (data: ListItem[]) => {
     return m(
         "ul.uk-list.uk-list-divider.uk-accordion",
         data.map((x) => {
-            return ListItem(x.title, x.open(), x.description,x.open)
+            return ListItem(x.title, x.id, x.open(), x.description,x.open)
         }
         )
     )
 }
 
-var ListItem = (title, changeOpen, description ,callback) => {
+var ListItem = (title, id ,changeOpen, description ,callback) => {
     return m(
         "li",
         {
@@ -27,7 +28,7 @@ var ListItem = (title, changeOpen, description ,callback) => {
                 class: changeOpen ? "" : "hide"
             },
             m(".uk-margin", description),
-            Button("Провести анализ", () => console.log("uspeh"))
+            Button("Провести анализ", () => sendData("http://localhost:5000/analyze", {proposalId: id}, "POST"))
         )
     )
 }
