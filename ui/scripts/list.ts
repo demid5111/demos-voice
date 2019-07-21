@@ -22,12 +22,12 @@ var ListItem = (title, changeOpen, description ,callback) => {
         },
         m("a.uk-accordion-title", title),
         m(
-            ".uk-accordion-content",
+            ".",
             {
                 class: changeOpen ? "" : "hide"
             },
             m(".uk-margin", description),
-            Button("Провести анализ")
+            Button("Провести анализ", () => console.log("uspeh"))
         )
     )
 }
