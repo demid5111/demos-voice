@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    font-size: 18px;
+}
+
+.example-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 800px !important; 
+}
+
+.mat-raised-button {
+    height: 40px;
+    width: 190px;
+    margin-top: 12px!important;
+    margin-left: 18px !important;
+    padding: 0 6px !important;
+}
