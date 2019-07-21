@@ -28,9 +28,15 @@
 
   <mat-divider></mat-divider>
 
-  <div>Название: {{ allProposals[currentProposal].name }}</div>
+  <h2>{{ allProposals[currentProposal].name }}</h2>
 
-  <div>Описание: {{ allProposals[currentProposal].content }}</div>
+  <h3>{{ allProposals[currentProposal].content }}</h3>
+
+  <mat-divider></mat-divider>
+
+  <div>Ссылка на пост (в социальной сети): <a [href]="allProposals[currentProposal].url">Пост ВКонтакте</a></div>
+
+  <div>Ссылка на анонс (в социальной сети): <a [href]="">Добавить</a></div>
 
   <mat-divider></mat-divider>
 
