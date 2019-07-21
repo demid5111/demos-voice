@@ -22,6 +22,8 @@ class TblProposals(BaseModel):
         discussion = TblDiscussions.query.filter_by(proposal_id=self.id).first()
         comments = TblComments.query.filter_by(discussion_id=discussion.id).all()
 
+        comments_likes = sum([c.likes if c.likes else 0 for c in comments])
+
         try:
             mean_polarity = sum([c.polarity for c in comments])/len(comments)
         except (TypeError, ZeroDivisionError):
@@ -54,5 +56,8 @@ class TblProposals(BaseModel):
             'meanPolarity': mean_polarity,
             'sumPositive': sum_positive,
             'sumNegative': sum_negative,
-            'sumNeutral': sum_neutral
+            'sumNeutral': sum_neutral,
+            'likes': discussion.likes,
+            'numComments': len(comments),
+            'commentsLikes': comments_likes,
         }

@@ -16,5 +16,8 @@ def analyze_sentiments(text):
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
-    r = post(url, data=json.dumps(data), headers=headers)
-    return json.loads(r.text)['result']
+    try:
+        r = post(url, data=json.dumps(data), headers=headers)
+        return json.loads(r.text)['result']
+    except:
+        return dict(polarity=0, confidence=0, positive=0, neutral=0, negative=0)
