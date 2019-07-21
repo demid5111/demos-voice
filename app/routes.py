@@ -8,7 +8,7 @@ from app.models.answers import TblAnswers
 from app.models.comments import TblComments
 from app.models.discussions import TblDiscussions
 from app.models.proposals import TblProposals
-from app.utils import write_record
+from app.utils import write_record, fill_sentiments
 
 
 @app.route('/')
@@ -60,6 +60,7 @@ def import_from_post():
         answer.likes = a.votes
         write_record(answer, get_db().session)
 
+    fill_sentiments(proposal.id)
     return jsonify({})
 
 
@@ -84,16 +85,6 @@ def analyze_proposal():
         data = {
             'proposalId': '1'
         }
-    proposal = TblProposals.query.get(data['proposalId'])
-    discussion = TblDiscussions.query.filter_by(proposal_id=proposal.id).first()
-    comments = TblComments.query.filter_by(discussion_id=discussion.id).all()
-    for c in comments:
-        res = analyze_sentiments(c.text)
-        c.polarity = res['polarity']
-        c.confidence = res['confidence']
-        c.positive = res['positive']
-        c.neutral = res['neutral']
-        c.negative = res['negative']
-        write_record(c, get_db().session)
+    fill_sentiments(data['proposalId'])
     return jsonify({})
 
