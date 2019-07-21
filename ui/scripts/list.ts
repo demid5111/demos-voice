@@ -31,7 +31,11 @@ var ListItem = (title, id, changeOpen, description, callback) => {
             Button("Провести анализ", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                sendData("http://localhost:5000/analyze", { proposalId: id }, "POST");
+                sendData("http://localhost:5000/analyze", { proposalId: id }, "POST")
+                    .then(
+                        () => {}
+                    )
+                    .catch(e => console.error(e));
             })
         )
     )
