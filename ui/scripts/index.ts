@@ -14,9 +14,10 @@ export type ListItem = {
     callback: () => void
 }
 
+export let actionItems = m.prop([]);
+
 const Page = {
     controller: function (customInputValue: CustomInputValue) {
-        let actionItems = m.prop([]);
         getData(
             'http://localhost:5000/all',
             "GET")
