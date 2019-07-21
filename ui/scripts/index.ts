@@ -94,7 +94,7 @@ const Page = {
                         })
                     ]
                 ),
-                List(controller.actionItems())
+                List(controller.actionItems)
             )
         );
     }

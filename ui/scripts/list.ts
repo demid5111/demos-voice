@@ -1,11 +1,11 @@
 import { ListItem, m } from ".";
 import { Button } from "./button";
-import { sendData } from "./sendMessage";
+import { sendData, getData } from "./sendMessage";
 
-export const List = (data: ListItem[]) => {
+export const List = (data: ListItem[] | any) => {
     return m(
         "ul.uk-list.uk-list-divider.uk-accordion",
-        data.map((x) => {
+        data().map((x) => {
             return ListItem(x.title, x.id, x.open(), x.description, x.open)
         }
         )
@@ -33,7 +33,19 @@ var ListItem = (title, id, changeOpen, description, callback) => {
                 e.stopPropagation();
                 sendData("http://localhost:5000/analyze", { proposalId: id }, "POST")
                     .then(
-                        () => {}
+                        () => {
+                            getData(
+                                'http://localhost:5000/all',
+                                "GET")
+                                .then(data => {
+                                        var item = data.filter(x => x.id === id);
+
+
+                                    });
+                                    m.redraw();
+                                })
+                                .catch(error => console.error(error));
+                        }
                     )
                     .catch(e => console.error(e));
             })
