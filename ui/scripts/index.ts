@@ -16,14 +16,22 @@ export type ListItem = {
 
 const Page = {
     controller: function (customInputValue: CustomInputValue) {
-        let actionItems = m.prop([
-            { id: "1", title: "Яма", description: "hello1", open: m.prop(false) },
-            { id: "2", title: "Two", description: "hello2", open: m.prop(false) }
-        ]);
+        let actionItems = m.prop([]);
         getData(
             'http://localhost:5000/all',
             "GET")
-            .then(data => { actionItems(JSON.stringify(data)) })
+            .then(data => { 
+                let items = data.map(x => { 
+                    return {
+                        description: "hello1",
+                        open: m.prop(false),
+                        title: x.title,
+                        id: x.id
+                    }
+                });
+                actionItems(items) 
+                m.redraw();
+            })
                 .catch(error => console.error(error));
     return {
         value: "vk",
