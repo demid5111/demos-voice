@@ -1,7 +1,7 @@
 import { Navbar } from "./navbar";
 import { List } from "./list";
 import { Button, Input } from "./button";
-import { sendData } from "./sendMessage";
+import { sendData, getData } from "./sendMessage";
 
 export const m = require("mithril");
 (<any>window).m = m;
@@ -16,15 +16,15 @@ export type ListItem = {
 
 const Page = {
     controller: function (customInputValue: CustomInputValue) {
-        let actionItems: ListItem[] | any = [
+        let actionItems = m.prop([
             { id: "1", title: "Яма", description: "hello1", open: m.prop(false) },
             { id: "2", title: "Two", description: "hello2", open: m.prop(false) }
-        ];
-        // sendData(
-        //     'http://localhost:5000/all',
-        //     "GET")
-        //     .then(data => { actionItems = JSON.stringify(data) })
-        //         .catch(error => console.error(error));
+        ]);
+        getData(
+            'http://localhost:5000/all',
+            "GET")
+            .then(data => { actionItems(JSON.stringify(data)) })
+                .catch(error => console.error(error));
     return {
         value: "vk",
         actionItems
@@ -69,7 +69,7 @@ const Page = {
                         })
                     ]
                 ),
-                List(controller.actionItems)
+                List(controller.actionItems())
             )
         );
     }
