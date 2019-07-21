@@ -3,25 +3,33 @@ import { List } from "./list";
 import { Button, Input } from "./button";
 import { sendData } from "./sendMessage";
 
-var m = require("mithril");
+export const m = require("mithril");
 (<any>window).m = m;
 
 type CustomInputValue = () => string;
 
 export type ListItem = {
     id: string,
-    title: string
+    title: string,
+    callback: () => void
 }
 
 const Page = {
     controller: function (customInputValue: CustomInputValue) {
-        let actionItems: ListItem[] = [{ id: "1", title: "Яма" }];
-
-        return {
-            value: "vk",
-            actionItems
-        };
-    },
+        let actionItems: ListItem[] | any = [
+            { id: "1", title: "Яма", description: "hello1", open: m.prop(false) },
+            { id: "2", title: "Two", description: "hello2", open: m.prop(false) }
+        ];
+        // sendData(
+        //     'http://localhost:5000/all',
+        //     "GET")
+        //     .then(data => { actionItems = JSON.stringify(data) })
+        //         .catch(error => console.error(error));
+    return {
+        value: "vk",
+        actionItems
+    };
+},
     view: function (controller: { value: CustomInputValue, actionItems }) {
 
         // const sendData = () => {
@@ -67,4 +75,4 @@ const Page = {
     }
 };
 
-m.render(document.body, Page);
+m.mount(document.body, Page);

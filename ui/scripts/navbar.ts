@@ -1,3 +1,5 @@
+import { m } from ".";
+
 export const Navbar = () => m(
     "nav.uk-navbar-container.uk-margin", 
     m(
@@ -5,7 +7,11 @@ export const Navbar = () => m(
         m(
             "ul.uk-navbar-nav",
             m(
-                "li"
+                ".uk-container",
+                m(
+                    ".uk-margin-top.uk-margin",
+                    ""
+                )
             )
         )
     )

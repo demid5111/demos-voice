@@ -6,3 +6,7 @@
 #initPost {
     width: 360px;
 }
+
+.hide {
+    display: none;
+}
