@@ -8,11 +8,18 @@
   </form>
 
   <mat-list>
-    <div *ngFor="let proposal of allProposals">
-      <mat-list-item  (click)="selectProposal(proposal.id)" >{{ proposal.name }}</mat-list-item>
+    <div *ngFor="let proposal of allProposals; let i = index">
+      <mat-list-item  (click)="selectProposal(proposal.id)" >{{ i+1 }}. {{ proposal.name }}</mat-list-item>
     <mat-divider></mat-divider>
     </div>
   </mat-list>
+
+  <div style="position: relative;min-height: 220px; max-width:700px; margin-left: auto; margin-right: auto">
+    <canvas #overallElement id="overallChart"></canvas>
+    <div id="overall-chartjs-tooltip">
+      <div class="tooltip-items"></div>
+    </div>
+  </div>
 </div>
 
 
@@ -38,6 +45,13 @@
   <div style="position: relative;min-height: 220px; max-width:700px; margin-left: auto; margin-right: auto">
     <canvas #canvasElement id="myChart"></canvas>
     <div id="chartjs-tooltip">
+      <div class="tooltip-items"></div>
+    </div>
+  </div>
+
+  <div style="position: relative;min-height: 220px; max-width:700px; margin-left: auto; margin-right: auto">
+    <canvas #temperatureElement id="temperatureChart"></canvas>
+    <div id="temperature-chartjs-tooltip">
       <div class="tooltip-items"></div>
     </div>
   </div>

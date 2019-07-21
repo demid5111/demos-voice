@@ -13,7 +13,6 @@ export const chartColors = {
 };
 
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,6 +26,12 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('canvasElement')
   canvasElement: ElementRef;
+
+  @ViewChild('temperatureElement')
+  temperatureElement: ElementRef;
+
+  @ViewChild('overallElement')
+  overallElement: ElementRef;
 
   private legend: HTMLElement;
   private tooltip: HTMLElement;
@@ -43,7 +48,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
   }
 
   analyzeProposal() {
@@ -57,13 +61,15 @@ export class AppComponent implements AfterViewInit {
     this.http.get(`${this.configUrl}/all`)
       .subscribe((data: any[]) => {
         this.allProposals = data;
+
+        this.buildOverallChart();
       });
   }
 
   selectProposal(id) {
     let index = 0;
-    this.allProposals.find((el, i)=> {
-      if (el.id === id){
+    this.allProposals.find((el, i) => {
+      if (el.id === id) {
         index = i;
         return true;
       }
@@ -73,24 +79,108 @@ export class AppComponent implements AfterViewInit {
     this.currentProposal = index;
     setTimeout(() => {
       console.log('Waiting for the element');
-      const labels = this.allProposals[this.currentProposal].poll.map((el) => {
-        return el.text;
-      });
 
-      const rates = this.allProposals[this.currentProposal].poll.map((el) => {
-        return el.rate;
-      });
-      this.answersChart = this.createAnswersChart(
-        labels,
-        rates,
-        [],
-      );
-    }, 1000);
+      this.buildAnswersChart();
+      this.buildTemperatureChart();
+
+    }, 200);
 
   }
 
   eraseSelection() {
     this.currentProposal = null;
+
+    setTimeout(() => {
+      console.log('Waiting for the element');
+
+      this.buildOverallChart();
+
+    }, 200);
+  }
+
+  buildAnswersChart() {
+    const labels = this.allProposals[this.currentProposal].poll.map((el) => {
+      return el.text;
+    });
+
+    const rates = this.allProposals[this.currentProposal].poll.map((el) => {
+      return el.rate;
+    });
+    this.answersChart = this.createAnswersChart(
+      labels,
+      rates,
+      [],
+    );
+  }
+
+  buildOverallChart() {
+    const labels = this.allProposals.map((el, i) => {
+      return i+1;
+    });
+
+
+    const positives = this.allProposals.map((el) => el.sumPositive);
+    const positivesColors = [];
+    for (let i=0; i < positives.length; i++) {
+      positivesColors.push(chartColors.green);
+    }
+    const positiveDataset = {
+      data: positives,
+      labels: 'Позитивно',
+      backgroundColor: positivesColors
+    };
+
+    const neutrals = this.allProposals.map((el) => el.sumNeutral);
+    const neutralsColors = [];
+    for (let i=0; i < neutrals.length; i++) {
+      neutralsColors.push(chartColors.blue);
+    }
+    const neutralDataset = {
+      data: neutrals,
+      labels: 'Нейтрально',
+      backgroundColor: neutralsColors
+    };
+
+    const negatives = this.allProposals.map((el) => -el.sumNeutral);
+    const negativesColors = [];
+    for (let i=0; i < negatives.length; i++) {
+      negativesColors.push(chartColors.red);
+    }
+    const negativeDataset = {
+      data: negatives,
+      labels: 'Негативно',
+      backgroundColor: negativesColors
+    };
+
+    this.answersChart = this.createOverallChart(
+      labels,
+      [
+        positiveDataset,
+        neutralDataset,
+        negativeDataset
+      ],
+      [],
+    );
+  }
+
+  buildTemperatureChart() {
+    const data = [
+      this.allProposals[this.currentProposal].sumPositive,
+      this.allProposals[this.currentProposal].sumNegative,
+      this.allProposals[this.currentProposal].sumNeutral,
+    ];
+
+    const labels = [
+      'Позитивно',
+      'Негативно',
+      'Нейтрально'
+    ];
+
+    this.temperatureChart = this.createTemperatureChart(
+      labels,
+      data,
+      [],
+    );
   }
 
   private createAnswersChart(labels, data, barColors) {
@@ -99,7 +189,7 @@ export class AppComponent implements AfterViewInit {
       data: {
         labels: labels,
         datasets: [{
-          data: [25,50,26,0],
+          data: data,
           backgroundColor: [
             chartColors.green,
             chartColors.blue,
@@ -123,6 +213,68 @@ export class AppComponent implements AfterViewInit {
               beginAtZero: true
             }
           }]
+        }
+      }
+    });
+  }
+
+  private createOverallChart(labels, data, barColors) {
+    return new Chart(this.overallElement.nativeElement, {
+      type: 'horizontalBar',
+      data: {
+        labels: labels,
+        datasets: data
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Результаты опроса'
+        },
+        scales: {
+          xAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
+  private createTemperatureChart(labels, data, barColors) {
+    return new Chart(this.temperatureElement.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Dataset 1',
+          data: data,
+          backgroundColor: [
+            chartColors.red,
+            chartColors.orange,
+            chartColors.yellow,
+            chartColors.green,
+            chartColors.blue,
+            chartColors.grey
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Результат анализа комментариев'
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
         }
       }
     });
