@@ -2,6 +2,7 @@ from app import app
 from flask import jsonify, render_template, request
 
 from app.core.parsers.vk import VKParser
+from app.core.sentiment_analysis import analyze_sentiments
 from app.factories.database import get_db
 from app.models.answers import TblAnswers
 from app.models.comments import TblComments
@@ -65,3 +66,24 @@ def import_from_post():
 @app.route('/all', methods=['GET'])
 def get_all():
     return jsonify([p.json() for p in TblProposals.query.all()])
+
+
+@app.route('/analyze', methods=['GET', 'POST'])
+def analyze_proposal():
+    # data = request.get_json()
+    data = {
+        'proposalId': '1'
+    }
+    proposal = TblProposals.query.get(data['proposalId'])
+    discussion = TblDiscussions.query.filter_by(proposal_id=proposal.id).first()
+    comments = TblComments.query.filter_by(discussion_id=discussion.id).all()
+    for c in comments:
+        res = analyze_sentiments(c.text)
+        c.polarity = res['polarity']
+        c.confidence = res['confidence']
+        c.positive = res['positive']
+        c.neutral = res['neutral']
+        c.negative = res['negative']
+        write_record(c, get_db().session)
+    return jsonify({})
+
