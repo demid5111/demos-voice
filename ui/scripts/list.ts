@@ -30,6 +30,7 @@ var ListItem = (title, id, changeOpen, description, callback) => {
             m(".uk-margin", description),
             Button("Провести анализ", (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 sendData("http://localhost:5000/analyze", { proposalId: id }, "POST");
             })
         )
