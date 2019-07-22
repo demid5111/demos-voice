@@ -49,7 +49,7 @@
 в корень проекта. Файл содержит `token` зарегистрированного
 пользователя сервиса [tt-api.tech](https://tt-api.tech)
 2. `pip3 install -r requirements.txt`
-3. `cd ui2`
+3. `cd client_app`
 4. `npm install`
 5. `npm start`
 6. В другой консоли выполните: `python3 main.py`

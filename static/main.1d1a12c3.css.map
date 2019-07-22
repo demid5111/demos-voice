@@ -1,1 +1,0 @@
-{"version":3,"sources":["main.css"],"names":[],"mappings":"AAAA,aACI,YAAa,CACb,aACJ,CAEA,UACI,WACJ","file":"main.1d1a12c3.css","sourceRoot":"..\\ui","sourcesContent":[".flex-inline {\r\n    display: flex;\r\n    flex-flow: row;\r\n}\r\n\r\n#initPost {\r\n    width: 360px;\r\n}"]}
